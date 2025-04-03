@@ -1,6 +1,6 @@
 import random
 
-doors = ['goat', 'car', 'goat']
+doors = ['car'] + ['goat'] * 2
 
 def monty_hall(switch):
     """Simulate the Monty Hall problem with an option to switch doors.
