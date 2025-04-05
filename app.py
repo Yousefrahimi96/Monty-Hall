@@ -2,62 +2,44 @@ import streamlit as st
 import random
 import time
 
-#title of application
+# Title of the application.
 st.image("pic.png")
 
 count = st.number_input("Enter number of games to simulate", min_value=1, value=100)
 
-#Create two list to hold win percentage for hold cases
+# Create variables to hold wins for both cases
 wins_no_switch = 0
-win_switch = 0
+wins_switch = 0
 
 col1, col2 = st.columns(2)
 col1.subheader("Win Percentage Without Switching")
 chart1 = col1.line_chart(x=None, y=None, width=0, height=400)
-chart1.add_rows([1.0]) # Add a row to ensure the chart y-axis starts at 1
+chart1.add_rows([1.0])  # Add a row to ensure the chart y-axis starts at 1.
 col2.subheader("Win Percentage With Switching")
 chart2 = col2.line_chart(x=None, y=None, width=0, height=400)
-chart2.add_rows([1.0]) # Add a row to ensure the chart y-axis starts at 1
-
+chart2.add_rows([1.0])  # Add a row to ensure the chart y-axis starts at 1.
 
 doors = ['car'] + ['goat'] * 2
 
-def monty_hall(switch):
-    """Simulate the Monty Hall problem with an option to switch doors.
-    
-    Args:
-        switch (bool): Whether to switch the initial choice or not.
+def monty_hall():
+    """Simulate the Monty Hall problem and return outcomes for both strategies.
     
     Returns:
-        bool: True if the car is won, False otherwise.
+        tuple: (win_no_switch, win_switch) - True if won, False otherwise.
     """
     random.shuffle(doors)
     initial_choice = random.choice(range(3))
     revealed_door = [i for i in range(3) if i != initial_choice and doors[i] == 'goat'][0]
-    
-    if switch:
-        final_choice = [n for n in range(3) if n != initial_choice and n != revealed_door][0]
-    else:
-        final_choice = initial_choice
-        
-    return doors[final_choice] == 'car'
-
-wins_no_switch = 0
-wins_switch = 0
-
-def count_result(count):
-    result_count = []
-    for _ in range(count):
-        result_count.append(monty_hall(True))
-
-    result = result_count.count(True) / count * 100
-    print(result)
+    final_choice_switch = [n for n in range(3) if n != initial_choice and n != revealed_door][0]
+    win_no_switch = doors[initial_choice] == 'car'
+    win_switch = doors[final_choice_switch] == 'car'
+    return win_no_switch, win_switch
 
 for i in range(count):
-    #simulate one game at a time
-    num_wins_with_switching = monty_hall(True)
-    wins_switch += num_wins_with_switching
-    chart1.add_rows([1 - (wins_switch / (i + 1))])
+    # Simulate one game at a time.
+    win_no_switch, win_switch = monty_hall()
+    wins_no_switch += win_no_switch
+    wins_switch += win_switch
+    chart1.add_rows([wins_no_switch / (i + 1)])
     chart2.add_rows([wins_switch / (i + 1)])
-    
-time.sleep(0.01)
+    time.sleep(0.01)
