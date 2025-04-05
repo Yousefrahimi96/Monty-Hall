@@ -57,6 +57,7 @@ for i in range(count):
     #simulate one game at a time
     num_wins_with_switching = monty_hall(True)
     wins_switch += num_wins_with_switching
+    chart1.add_rows([1 - (wins_switch / (i + 1))])
     chart2.add_rows([wins_switch / (i + 1)])
     
 time.sleep(0.01)
