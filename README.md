@@ -80,7 +80,7 @@ Follow these steps to set up the project locally:
 
 1. **Clone the Repository**:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Yousefrahimi96/Monty-Hall.git
    cd monty-hall-simulator
 
 2. **Install Dependencies:**:

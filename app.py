@@ -3,7 +3,7 @@ import random
 import time
 
 # Title of the application.
-st.image("pic.png")
+st.image("./data/pic.png")
 
 count = st.number_input("Enter number of games to simulate", min_value=1, value=100)
 
